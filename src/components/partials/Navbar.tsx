@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,6 +17,7 @@ import {
   GiLightBackpack,
   GiCardRandom,
 } from "react-icons/gi";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   return (
@@ -49,24 +52,15 @@ export default function Navbar() {
         </div>
         {/* Links section */}
         <div className="flex items-center text-sm" style={{ height: "78px" }}>
-          <Link
-            href={"#"}
-            className="flex items-center justify-center text-center h-full px-2 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-          >
+          <NavbarLink className={"px-2"} href="/">
             INICIO
-          </Link>
-          <Link
-            href={"#"}
-            className="flex items-center justify-center text-center h-full px-2 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-          >
+          </NavbarLink>
+          <NavbarLink className={"px-2"} href="/tft">
             TFT
-          </Link>
-          <Link
-            href={"#"}
-            className="flex items-center justify-center text-center h-full px-2 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-          >
+          </NavbarLink>
+          <NavbarLink className={"px-2"} href="/clash">
             CLASH
-          </Link>
+          </NavbarLink>
         </div>
       </div>
       {/* Right */}
@@ -78,42 +72,24 @@ export default function Navbar() {
             className="flex items-center text-xl text-amber-200"
             style={{ height: "78px" }}
           >
-            <Link
-              href={"#"}
-              className="flex items-center justify-center text-center h-full px-4 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-            >
+            <NavbarLink className={"px-4"}>
               <GiAtom />
-            </Link>
-            <Link
-              href={"#"}
-              className="flex items-center justify-center text-center h-full px-4 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-            >
+            </NavbarLink>
+            <NavbarLink className={"px-4"}>
               <FaUserCircle />
-            </Link>
-            <Link
-              href={"#"}
-              className="flex items-center justify-center text-center h-full px-4 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-            >
+            </NavbarLink>
+            <NavbarLink className={"px-4"}>
               <GiLightBackpack />
-            </Link>
-            <Link
-              href={"#"}
-              className="flex items-center justify-center text-center h-full px-4 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-            >
+            </NavbarLink>
+            <NavbarLink className={"px-4"}>
               <FaKey />
-            </Link>
-            <Link
-              href={"#"}
-              className="flex items-center justify-center text-center h-full px-4 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-            >
+            </NavbarLink>
+            <NavbarLink className={"px-4"}>
               <GiCardRandom />
-            </Link>
-            <Link
-              href={"#"}
-              className="flex items-center justify-center text-center h-full px-4 hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]"
-            >
+            </NavbarLink>
+            <NavbarLink className={"px-4"}>
               <FaCoins />
-            </Link>
+            </NavbarLink>
           </div>
           <div className="h-14 border-l border-amber-500" />
           {/* Points */}
@@ -164,5 +140,35 @@ export default function Navbar() {
         </div>
       </div>
     </div>
+  );
+}
+
+function NavbarLink({
+  className = "",
+  children,
+  href = "#",
+}: {
+  className?: string;
+  children: any;
+  href?: string;
+}) {
+  const pathname = usePathname();
+  const active =
+    "text-amber-50 bg-gradient-to-b from-gray-900 via-gray-900 to-[rgba(254,243,199,0.2)]";
+  const inactive =
+    "hover:text-amber-50 bg-gradient-to-b hover:from-gray-900 hover:via-gray-900 hover:to-[rgba(254,243,199,0.2)]";
+
+  const isActive = () => {
+    return pathname != "/" ? pathname === href : pathname.includes(href);
+  };
+  return (
+    <Link
+      href={href}
+      className={`${className} flex items-center justify-center text-center h-full ${
+        isActive() ? active : inactive
+      }`}
+    >
+      {children}
+    </Link>
   );
 }
